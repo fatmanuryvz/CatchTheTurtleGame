@@ -1,0 +1,97 @@
+#1
+import turtle
+import random
+import time
+
+#2
+screen = turtle.Screen()
+screen.bgcolor("light blue")
+screen.title("Catch the turtle game")
+screen.setup(width=800, height=600)
+
+score = 0
+game_over = False
+
+#TURTLEEE
+#3
+turtlee = turtle.Turtle()
+turtlee.shape("turtle")
+turtlee.color("brown" , "green")
+turtlee.speed(10)
+turtlee.penup()
+turtlee.width = 20
+turtlee.height = 20
+#turtlee.goto(random.randint(0,100),random.randint(0,60)) #goto(x,y)
+
+#4
+#GAMERR
+gamer = turtle.Turtle()
+gamer.shape()
+gamer.penup()
+gamer.color("blue")
+gamer.goto(0,-250)
+gamer.speed(200)
+gamer.hideturtle()
+
+#5
+skor_turtle = turtle.Turtle()
+def setup_score_turtle():
+    skor_turtle.speed(10)
+    skor_turtle.color("blue")
+    skor_turtle.penup()
+    skor_turtle.hideturtle()
+    skor_turtle.goto(0, 260)
+
+
+#6
+def fare_tıklama(x,y):
+    global score
+    if not game_over:
+        if gamer.distance(turtlee) <= 10:
+            score +=1
+            skor_turtle.clear()
+            turtlee.goto(random.randint(-280, 280), random.randint(-280, 280))
+
+    skor_turtle.write("Score: {}".format(score), align="center", font=("Courier", 24, "normal"))
+    gamer.setposition(x,y)
+
+#7
+def move_turtle():
+    if not game_over:
+        angle = random.randint(0,360)
+        turtlee.setheading(angle)
+
+        turtlee.forward(100)
+        turtlee.goto(random.randint(-290, 290), random.randint(-290, 290))  # goto(x,y)
+        screen.ontimer(move_turtle, 1000)
+
+    else:
+        turtlee.hideturtle() #when time is finish, turtle will hide
+#8
+#TIMER
+countdown_turtle = turtle.Turtle()
+def countdown(time):
+    global game_over
+    countdown_turtle.hideturtle()
+    countdown_turtle.penup()
+    countdown_turtle.setposition(0,210)
+    countdown_turtle.clear()
+
+    if time > 0:
+        countdown_turtle.clear()
+        countdown_turtle.write(arg="Time: {}".format(time), move=False , align="center",font=("Monospace", 24, "normal") )
+        screen.ontimer(lambda :countdown(time - 1), 1000)
+    else:
+        game_over = True
+        countdown_turtle.clear()
+        countdown_turtle.write(arg="Game over!", move=False, align="center",font=("Monospace", 24, "normal"))
+
+def start_game():
+    move_turtle()
+    setup_score_turtle()
+    screen.onclick(fare_tıklama)
+    countdown(10)
+    turtle.done()
+
+start_game()
+
